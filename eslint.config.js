@@ -4,7 +4,11 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
-export default defineConfig([
+/**
+ * ESLint flat configuration for JavaScript and React files.
+ * @type {import('eslint').Linter.FlatConfig[]}
+ */
+const config = [
   globalIgnores(['dist']),
   {
     files: ['**/*.{js,jsx}'],
@@ -26,4 +30,6 @@ export default defineConfig([
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
   },
-])
+]
+
+export default defineConfig(config)

@@ -1,6 +1,14 @@
 import { useMemo, useState } from "react";
 import styles from "./GenreFilter.module.css";
 
+/**
+ * Renders a genre dropdown filter with selectable options.
+ * @param {Object} props - Component props.
+ * @param {{ id: number, name: string }[]} props.genres - Available genres.
+ * @param {string | number} props.selectedGenre - Selected genre id.
+ * @param {(genreId: string) => void} props.onSelectGenre - Genre change callback.
+ * @returns {JSX.Element}
+ */
 export default function GenreFilter({ genres, selectedGenre, onSelectGenre }) {
   const [isOpen, setIsOpen] = useState(false);
   const options = useMemo(

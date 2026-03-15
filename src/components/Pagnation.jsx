@@ -1,5 +1,13 @@
 import styles from "./Pagnation.module.css";
 
+/**
+ * Renders pagination controls for the podcast list.
+ * @param {Object} props - Component props.
+ * @param {number} props.totalPages - Total number of available pages.
+ * @param {number} props.currentPage - Current active page.
+ * @param {(page: number) => void} props.onPageChange - Page change callback.
+ * @returns {JSX.Element | null}
+ */
 export default function Pagination({ totalPages, currentPage, onPageChange }) {
   if (totalPages <= 1) return null;
 

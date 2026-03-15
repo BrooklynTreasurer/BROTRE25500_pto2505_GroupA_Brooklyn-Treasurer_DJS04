@@ -1,5 +1,13 @@
 import styles from "./SortSelect.module.css";
 
+/**
+ * Renders the sort dropdown used to order podcasts.
+ * @param {Object} props - Component props.
+ * @param {{ key: string, label: string }[]} props.options - Sort options.
+ * @param {string} props.selectedSort - Selected sort key.
+ * @param {(sortKey: string) => void} props.onSelectSort - Sort change callback.
+ * @returns {JSX.Element}
+ */
 export default function SortSelect({ options, selectedSort, onSelectSort }) {
   return (
     <div className={styles.sortSelect}>
