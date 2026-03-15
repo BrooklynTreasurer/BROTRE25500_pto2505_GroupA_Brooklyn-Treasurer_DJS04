@@ -4,6 +4,7 @@ import {fetchPodcasts} from './api/fetchPodcast.js';
 import Header from "./components/Header.jsx";
 import PodcastGrid from "./components/PodcastGrid.jsx";
 import loadingCat from "./assets/loading-cat.mp4";
+import SearchBar from './components/SearchBar.jsx';
 
 /**
  * Main application component.
@@ -32,6 +33,7 @@ function App() {
 return (
   <>
     <Header />
+    <SearchBar searchTerm={''} onSearch={() => {}} />
 
   {loading && 
     <div className="loader-container">
