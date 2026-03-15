@@ -9,6 +9,7 @@ import GenreFilter from "./components/GenreFilter.jsx";
 import SortSelect from "./components/SortSelect.jsx";
 import { GenreService } from "./utils/genreService.js";
 import { SORT_OPTIONS } from "./context/PodcastContext.jsx";
+import Pagination from "./components/Pagnation.jsx";
 
 /**
  * Main application component.
@@ -20,6 +21,8 @@ function App() {
   const [error, setError] = useState(null);
   const [selectedGenre, setSelectedGenre] = useState("all");
   const [sortKey, setSortKey] = useState("date-desc");
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 12;
 
   const genres = GenreService.getAll();
   const filteredPodcasts =
@@ -48,6 +51,13 @@ function App() {
       break;
   }
 
+  const totalPages = Math.max(1, Math.ceil(sortedPodcasts.length / pageSize));
+  const safePage = Math.min(currentPage, totalPages);
+  const pagedPodcasts = sortedPodcasts.slice(
+    (safePage - 1) * pageSize,
+    safePage * pageSize
+  );
+
   useEffect(() => {
     const load = async () => {
       try {
@@ -62,6 +72,10 @@ function App() {
 
     load();
   }, []);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedGenre, sortKey]);
 
   return (
     <>
@@ -78,6 +92,7 @@ function App() {
         onSelectSort={setSortKey}
       />
 
+
       {loading && (
         <div className="loader-container">
           <video
@@ -92,7 +107,16 @@ function App() {
 
       {error && <p>Error: {error.message}</p>}
 
-      {!loading && !error && <PodcastGrid podcasts={sortedPodcasts} />}
+      {!loading && !error && (
+        <>
+          <PodcastGrid podcasts={pagedPodcasts} />
+          <Pagination
+            totalPages={totalPages}
+            currentPage={safePage}
+            onPageChange={setCurrentPage}
+          />
+        </>
+      )}
     </>
   );
 }
