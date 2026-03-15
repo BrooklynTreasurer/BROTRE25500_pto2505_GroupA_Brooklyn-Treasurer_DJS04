@@ -3,9 +3,14 @@ import styles from "./GenreFilter.module.css";
 
 export default function GenreFilter({ genres, selectedGenre, onSelectGenre }) {
   const [isOpen, setIsOpen] = useState(false);
-  const options = useMemo(() => [{ id: "all", name: "All Genres" }, ...genres], [genres]);
+  const options = useMemo(
+    () => [{ id: "all", name: "All Genres" }, ...genres],
+    [genres]
+  );
+
   const selectedOption =
-    options.find((option) => String(option.id) === String(selectedGenre)) || options[0];
+    options.find((option) => String(option.id) === String(selectedGenre)) ||
+    options[0];
 
   const handleSelect = (id) => {
     onSelectGenre(String(id));
@@ -22,7 +27,7 @@ export default function GenreFilter({ genres, selectedGenre, onSelectGenre }) {
           onClick={() => setIsOpen((prev) => !prev)}
         >
           <span className={styles.triggerText}>{selectedOption.name}</span>
-          <span className={styles.arrow}>{isOpen ? "▲" : "▼"}</span>
+          <span className={styles.arrow}>{isOpen ? "^" : "v"}</span>
         </button>
 
         {isOpen && (
@@ -33,7 +38,9 @@ export default function GenreFilter({ genres, selectedGenre, onSelectGenre }) {
                 <button
                   type="button"
                   key={option.id}
-                  className={`${styles.option} ${isSelected ? styles.optionSelected : ""}`}
+                  className={`${styles.option} ${
+                    isSelected ? styles.optionSelected : ""
+                  }`}
                   onClick={() => handleSelect(option.id)}
                 >
                   {option.name}

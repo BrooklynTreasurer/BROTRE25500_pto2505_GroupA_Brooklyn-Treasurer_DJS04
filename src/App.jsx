@@ -6,7 +6,9 @@ import PodcastGrid from "./components/PodcastGrid.jsx";
 import loadingCat from "./assets/loading-cat.mp4";
 import SearchBar from "./components/SearchBar.jsx";
 import GenreFilter from "./components/GenreFilter.jsx";
+import SortSelect from "./components/SortSelect.jsx";
 import { GenreService } from "./utils/genreService.js";
+import { SORT_OPTIONS } from "./context/PodcastContext.jsx";
 
 /**
  * Main application component.
@@ -17,6 +19,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedGenre, setSelectedGenre] = useState("all");
+  const [sortKey, setSortKey] = useState("date-desc");
 
   const genres = GenreService.getAll();
   const filteredPodcasts =
@@ -27,6 +30,23 @@ function App() {
             Array.isArray(podcast.genres) &&
             podcast.genres.includes(Number(selectedGenre))
         );
+  const sortedPodcasts = [...filteredPodcasts];
+
+  switch (sortKey) {
+    case "title-asc":
+      sortedPodcasts.sort((a, b) => a.title.localeCompare(b.title));
+      break;
+    case "title-desc":
+      sortedPodcasts.sort((a, b) => b.title.localeCompare(a.title));
+      break;
+    case "date-asc":
+      sortedPodcasts.sort((a, b) => new Date(a.updated) - new Date(b.updated));
+      break;
+    case "date-desc":
+    default:
+      sortedPodcasts.sort((a, b) => new Date(b.updated) - new Date(a.updated));
+      break;
+  }
 
   useEffect(() => {
     const load = async () => {
@@ -52,6 +72,11 @@ function App() {
         selectedGenre={selectedGenre}
         onSelectGenre={setSelectedGenre}
       />
+      <SortSelect
+        options={SORT_OPTIONS}
+        selectedSort={sortKey}
+        onSelectSort={setSortKey}
+      />
 
       {loading && (
         <div className="loader-container">
@@ -67,7 +92,7 @@ function App() {
 
       {error && <p>Error: {error.message}</p>}
 
-      {!loading && !error && <PodcastGrid podcasts={filteredPodcasts} />}
+      {!loading && !error && <PodcastGrid podcasts={sortedPodcasts} />}
     </>
   );
 }
