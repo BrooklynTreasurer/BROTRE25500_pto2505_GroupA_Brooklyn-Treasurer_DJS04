@@ -19,16 +19,25 @@ function App() {
   const [podcasts, setPodcasts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedGenre, setSelectedGenre] = useState("all");
   const [sortKey, setSortKey] = useState("date-desc");
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 12;
 
   const genres = GenreService.getAll();
+  const normalizedSearch = searchTerm.trim().toLowerCase();
+
+  const filteredBySearch = normalizedSearch
+    ? podcasts.filter((podcast) =>
+        podcast.title.toLowerCase().includes(normalizedSearch)
+      )
+    : podcasts;
+
   const filteredPodcasts =
     selectedGenre === "all"
-      ? podcasts
-      : podcasts.filter(
+      ? filteredBySearch
+      : filteredBySearch.filter(
           (podcast) =>
             Array.isArray(podcast.genres) &&
             podcast.genres.includes(Number(selectedGenre))
@@ -75,22 +84,24 @@ function App() {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedGenre, sortKey]);
+  }, [searchTerm, selectedGenre, sortKey]);
 
   return (
     <>
       <Header />
-      <SearchBar searchTerm={""} onSearch={() => {}} />
-      <GenreFilter
-        genres={genres}
-        selectedGenre={selectedGenre}
-        onSelectGenre={setSelectedGenre}
-      />
-      <SortSelect
-        options={SORT_OPTIONS}
-        selectedSort={sortKey}
-        onSelectSort={setSortKey}
-      />
+      <div className="controls">
+        <GenreFilter
+          genres={genres}
+          selectedGenre={selectedGenre}
+          onSelectGenre={setSelectedGenre}
+        />
+         <SearchBar searchTerm={searchTerm} onSearch={setSearchTerm} />
+        <SortSelect
+          options={SORT_OPTIONS}
+          selectedSort={sortKey}
+          onSelectSort={setSortKey}
+        />
+      </div>
 
 
       {loading && (

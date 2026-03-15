@@ -217,3 +217,12 @@ body {
   object-fit: cover;       
   box-shadow: 0 0 20px rgba(108, 99, 255, 0.5);
 }
+
+.controls {
+  margin-bottom: 14px;
+  margin-left: 100px;
+  padding: 0 1rem;
+  display: flex;
+  gap: 30px;
+
+}
