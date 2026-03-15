@@ -4,7 +4,7 @@
 Developed by Brooklyn Treasurer
 
 ## Project Overview
-The DJS03 React Podcast Landing Page is a podcast discovery interface built with React and Vite.
+The DJS04 React Podcast Landing Page is a podcast discovery interface built with React and Vite.
 
 It fetches podcast data from:
 
