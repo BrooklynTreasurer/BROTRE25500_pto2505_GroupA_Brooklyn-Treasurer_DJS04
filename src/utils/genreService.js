@@ -25,4 +25,15 @@ export const GenreService = {
     if (!Array.isArray(genreIds)) return [];
     return genreIds.map((id) => GENRES_BY_ID[id] || "Unknown");
   },
+
+  /**
+   * Returns all known genres in dropdown-friendly format.
+   * @returns {{ id: number, name: string }[]}
+   */
+  getAll() {
+    return Object.entries(GENRES_BY_ID).map(([id, name]) => ({
+      id: Number(id),
+      name,
+    }));
+  },
 };
