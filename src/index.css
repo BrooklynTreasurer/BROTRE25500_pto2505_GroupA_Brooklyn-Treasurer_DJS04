@@ -70,6 +70,7 @@ body {
   text-align: center;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   background-color: var(--secondary);
   padding: 1rem 1.5rem;
   border-radius: 5px;
@@ -98,6 +99,8 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1rem;
+  width: min(1200px, 100% - 2rem);
+  margin: 0 auto;
 }
 
 .podcast-card {
@@ -219,10 +222,36 @@ body {
 }
 
 .controls {
-  margin-bottom: 14px;
-  margin-left: 100px;
+  margin: 0 auto 14px;
   padding: 0 1rem;
   display: flex;
-  gap: 30px;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 14px;
+  width: min(1200px, 100%);
+}
 
+@media (max-width: 768px) {
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .app-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .theme-toggle {
+    width: 100%;
+  }
+
+  .controls {
+    gap: 10px;
+  }
+
+  .podcast-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    width: calc(100% - 1rem);
+  }
 }
